@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Complexity Casino</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <section class="main-menu" id="mainMenu">
+    <div class="menu-card">
+      <p class="eyebrow">Complexity Casino</p>
+      <h1>Algorithm Tables</h1>
+      <p>Walk the casino floor, talk to characters, place bets, and complete educational algorithm labs.</p>
+      <button class="primary-button" id="startCasinoBtn">Start Game</button>
+    </div>
+  </section>
+
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Algorithm Education Game</p>
+        <h1>Complexity Casino</h1>
+      </div>
+      <div class="status-strip">
+        <div class="stat">
+          <span>Chips</span>
+          <strong id="chipsValue">150</strong>
+        </div>
+        <div class="stat">
+          <span>Labs Completed</span>
+          <strong id="completedValue">0 / 2</strong>
+        </div>
+        <button class="icon-button" id="resetProgressBtn" title="Reset progress" aria-label="Reset progress">Reset</button>
+        <button class="icon-button" id="exportLogsBtn" title="Export game logs" aria-label="Export logs">Export Logs</button>
+        <button class="icon-button" id="musicToggleBtn" title="Toggle music" aria-label="Toggle music">Music On</button>
+        <label class="volume-control" title="Music volume">
+          <span>Volume</span>
+          <input id="musicVolumeSlider" type="range" min="0" max="100" value="32" aria-label="Music volume">
+        </label>
+      </div>
+    </header>
+
+    <section class="hud">
+      <div class="stat">
+        <span>Run Timer</span>
+        <strong id="runTimerValue">10:00</strong>
+      </div>
+      <div class="stat">
+        <span>Current Bet</span>
+        <strong id="betValue">0</strong>
+      </div>
+      <div class="stat">
+        <span>Debt</span>
+        <strong id="debtValue">None</strong>
+      </div>
+      <div class="stat">
+        <span>XP</span>
+        <strong id="xpValue">0</strong>
+      </div>
+      <div class="stat">
+        <span>Streak</span>
+        <strong id="streakValue">x1</strong>
+      </div>
+    </section>
+
+    <main class="main-layout">
+      <section class="floor-panel" aria-label="Casino floor">
+        <div class="floor-header">
+          <div>
+            <h2>Floor 1: Algorithm Tables</h2>
+            <p>Move near a table and press <strong>E</strong> or <strong>Enter</strong> to interact.</p>
+          </div>
+          <div class="floor-badge">Original layout</div>
+        </div>
+
+        <div class="casino-floor" id="casinoFloor">
+          <img class="floor-background" src="assets/images/tiles/casino_floor.png" alt="" />
+
+          <img class="floor-asset interactable" data-kind="door" data-title="Door" data-description="Return to the main menu." data-x="3" data-y="554" data-w="120" data-h="140" src="assets/images/objects/casino_door.png" alt="Casino door" />
+          <img class="floor-asset interactable" data-kind="elevator" data-title="Elevator" data-description="New floors with new games will be added later." data-x="873" data-y="551" data-w="125" data-h="145" src="assets/images/objects/casino_elevator.png" alt="Casino elevator" />
+          <img class="floor-asset interactable blocker" data-kind="service" data-title="Casino Services" data-description="Buy hint tokens, critical freezes, and lab-time boosts before starting a table." data-x="328" data-y="41" data-w="280" data-h="170" src="assets/images/objects/casino_bar_counter.png" alt="Casino service counter" />
+
+          <div class="floor-asset game-table blocker interactable" data-kind="game" data-game="pathfinding" data-x="799" data-y="178" data-w="210" data-h="150" data-rotation="270" aria-label="Route Roulette table">
+            <img src="assets/images/objects/roulette_table_large.png" alt="" />
+            <span>Route Roulette</span>
+          </div>
+          <div class="floor-asset game-table blocker interactable" data-kind="game" data-game="divide" data-x="381" data-y="537" data-w="260" data-h="150" data-rotation="180" aria-label="Merge the Vault table">
+            <img src="assets/images/objects/poker_table_brown.png" alt="" />
+            <span>Merge the Vault</span>
+          </div>
+          <div class="floor-asset game-table blocker interactable" data-kind="game" data-game="future" data-x="11" data-y="280" data-w="190" data-h="150" data-rotation="90" aria-label="Balance the House table">
+            <img src="assets/images/objects/blackjack_table_black.png" alt="" />
+            <span>Balance the House</span>
+          </div>
+
+          <img class="floor-asset npc interactable" data-kind="npc" data-name="Guard" data-lines="Keep it clean. The house is watching.|No trouble near the entrance.|Play smart. Walk smarter." data-x="-7" data-y="456" data-w="92" data-h="92" src="assets/images/npcs/npc_security_guard.png" alt="Security guard" />
+          <img class="floor-asset npc interactable" data-kind="npc" data-name="Bartender" data-lines="Power-ups are paused for now.|Loans and repayments still happen here.|Bad luck? Keep the bet small and learn the pattern." data-x="421" data-y="26" data-w="72" data-h="72" src="assets/images/npcs/npc_bartender.png" alt="Bartender" />
+          <img class="floor-asset npc interactable" data-kind="npc" data-name="Dealer" data-lines="These new tables reward understanding, not luck.|Place a bet only when you are ready.|Finish the lab and come back for your payout." data-x="469" data-y="621" data-w="84" data-h="84" src="assets/images/npcs/npc_dealer.png" alt="Dealer" />
+          <img class="floor-asset npc interactable" data-kind="npc" data-name="Dealer" data-lines="Pathfinding is about choices under uncertainty.|BFS is safe. DFS is risky. A* is guided." data-x="918" data-y="206" data-w="84" data-h="84" src="assets/images/npcs/npc_dealer.png" alt="Dealer" />
+          <img class="floor-asset npc interactable" data-kind="npc" data-name="Dealer" data-lines="Balance the House teaches AVL rotations.|Find the first unbalanced node before choosing LL, RR, LR, or RL.|The right swipe sequence saves the tree and protects your bet." data-x="-10" data-y="313" data-w="84" data-h="84" src="assets/images/npcs/npc_dealer.png" alt="Dealer" />
+          <img class="floor-asset npc" data-x="696" data-y="26" data-w="92" data-h="92" src="assets/images/npcs/npc_tip_girl.png" alt="Tip girl" />
+          <img class="floor-asset npc" data-x="915" data-y="405" data-w="82" data-h="82" src="assets/images/npcs/npc_guest_man.png" alt="Casino guest" />
+          <img class="floor-asset npc interactable" data-kind="npc" data-name="Bass Player" data-lines="The bassline is iterative tonight.|Everything here loops eventually.|The house swings in polynomial time." data-x="4" data-y="63" data-w="112" data-h="112" src="assets/images/npcs/npc_bassist.png" alt="Bass player" />
+          <img class="floor-asset npc interactable" data-kind="npc" data-name="Sax Player" data-lines="Smooth notes. Rough odds.|Improvisation works better than panic.|Even the music has a pattern." data-x="73" data-y="67" data-w="112" data-h="112" src="assets/images/npcs/npc_sax_player.png" alt="Sax player" />
+
+          <img class="player" id="player" src="assets/images/player/player_front.png" alt="Player" />
+          <div class="interaction-prompt hidden" id="interactionPrompt">Press E or Enter to interact</div>
+        </div>
+
+        <div class="controls">
+          <button data-move="up" aria-label="Move up">Up</button>
+          <button data-move="left" aria-label="Move left">Left</button>
+          <button data-move="down" aria-label="Move down">Down</button>
+          <button data-move="right" aria-label="Move right">Right</button>
+          <button id="interactBtn">Interact</button>
+        </div>
+      </section>
+
+      <aside class="side-panel">
+        <section class="panel">
+          <h2>Table Progress</h2>
+          <div class="table-list" id="tableList"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Services</h2>
+          <div class="inventory-list" id="inventoryList"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Current Goal</h2>
+          <p id="goalText">Complete Easy, Medium, and Hard on Merge the Vault and Balance the House. Route Roulette is demo-only.</p>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <dialog class="table-dialog" id="tableDialog">
+    <div class="dialog-card">
+      <button class="close-button" id="closeDialogBtn" aria-label="Close">x</button>
+      <p class="eyebrow" id="dialogType">Table</p>
+      <h2 id="dialogTitle">Algorithm Table</h2>
+      <p id="dialogDescription"></p>
+      <div class="dialog-actions">
+        <button class="primary-button" id="startGameBtn">Start Lab</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="table-dialog" id="betDialog">
+    <div class="dialog-card">
+      <button class="close-button" id="closeBetBtn" aria-label="Close">x</button>
+      <p class="eyebrow">Place Bet</p>
+      <h2 id="betTitle">Algorithm Table</h2>
+      <p id="betDescription"></p>
+      <label class="field">
+        <span>Difficulty</span>
+        <select id="difficultySelect">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Bet amount</span>
+        <input id="betInput" type="number" min="50" step="10" value="50" />
+      </label>
+      <div class="boost-actions hidden">
+        <button class="secondary-button" data-boost="hint">Use Hint</button>
+        <button class="secondary-button" data-boost="extra_time">Use Extra Time</button>
+        <button class="secondary-button" data-boost="time_freeze">Use Time Freeze</button>
+        <button class="secondary-button" data-boost="insurance">Use Insurance</button>
+        <button class="secondary-button" data-boost="double_reward">Use Double Reward</button>
+        <button class="secondary-button" data-boost="safe_bet">Use Safe Bet</button>
+      </div>
+      <p class="message" id="betMessage"></p>
+      <div class="dialog-actions">
+        <button class="primary-button" id="confirmBetBtn">Start Lab</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="table-dialog wide-dialog" id="serviceDialog">
+    <div class="dialog-card">
+      <button class="close-button" id="closeServiceBtn" aria-label="Close">x</button>
+      <p class="eyebrow">Casino Services</p>
+      <h2>Services & Debt</h2>
+      <p>Buy services before entering a table. Mini-games spend these tokens when you use hints or timer help.</p>
+      <div class="service-grid" id="serviceGrid"></div>
+      <div class="loan-panel">
+        <h3>Loan Shark</h3>
+        <p id="loanStatus">No active loan.</p>
+        <div class="dialog-actions">
+          <button class="secondary-button loan-button" data-loan="300">Loan 300</button>
+          <button class="secondary-button loan-button" data-loan="600">Loan 600</button>
+          <button class="secondary-button loan-button" data-loan="1000">Loan 1000</button>
+          <button class="primary-button" id="repayLoanBtn">Repay</button>
+        </div>
+      </div>
+      <p class="message" id="serviceMessage"></p>
+    </div>
+  </dialog>
+
+  <dialog class="table-dialog" id="npcDialog">
+    <div class="dialog-card">
+      <button class="close-button" id="closeNpcBtn" aria-label="Close">x</button>
+      <p class="eyebrow">Conversation</p>
+      <h2 id="npcName">NPC</h2>
+      <p id="npcLine"></p>
+    </div>
+  </dialog>
+
+  <section class="game-runner hidden" id="gameRunner" aria-label="Mini game runner">
+    <div class="runner-bar">
+      <div>
+        <p class="eyebrow">Now Playing</p>
+        <h2 id="runnerTitle">Lab</h2>
+      </div>
+      <div class="runner-actions">
+        <div class="runner-timer hidden">Lab Timer: <strong id="labTimerValue">00:00</strong></div>
+        <button class="secondary-button runner-boost hidden" data-runner-boost="hint">Hint</button>
+        <button class="secondary-button runner-boost hidden" data-runner-boost="extra_time">+Time</button>
+        <button class="secondary-button hidden" id="freezeTimerBtn">Freeze Timer</button>
+        <button class="secondary-button runner-boost hidden" data-runner-boost="insurance">Insurance</button>
+        <button class="secondary-button runner-boost hidden" data-runner-boost="safe_bet">Safe Bet</button>
+        <button class="primary-button" id="exitRunnerBtn">Return To Casino</button>
+      </div>
+    </div>
+    <iframe id="gameFrame" title="Educational mini game"></iframe>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
